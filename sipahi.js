@@ -1,4 +1,4 @@
-﻿//ekrandaki kaydı silerken, servera gitmeden ajax ile silmeyi sağlar.  
+﻿//ekrandaki kaydı silerken, servera gitmeden ajax ile silmeyi sağlar. git!
 $(function () {
     $("#tblDepartmanlar").DataTable({
         "language": {
