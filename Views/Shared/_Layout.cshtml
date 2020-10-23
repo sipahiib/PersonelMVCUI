@@ -1,0 +1,28 @@
+﻿
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Personel sistemi</title>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/site.css" rel="stylesheet" />
+    <link href="~/Content/DataTables/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+</head>
+<body>
+    @Html.Partial("_NavBar")
+    <div class="container">
+        @RenderBody()
+    </div>
+    @* buraya eklediğimiz script dosya pathlerini, ayrı bir dosyada tutuyoruz artık (BundleConfig.cs).
+        global.asax dosyasına "RegisterBundles" satırı ekleyerek çağırıyoruz.*@
+    @System.Web.Optimization.Scripts.Render("~/bundles/scripts")
+
+    @* Server-side validation değil, client-side yapmak için vadalion scriptleri indirdik ve onu Layout'ta değil, ilgili sayfada çağırıyoruz. *@
+    @RenderSection("validationScripts", false)
+</body>
+</html>

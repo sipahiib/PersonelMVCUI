@@ -1,0 +1,41 @@
+﻿
+@model PersonelMVCUI.Models.Entity.Departman
+
+@{
+    ViewBag.Title = "Yeni";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<form method="post" action="">
+        <div class="form-group">
+            <label>Departman Adı</label>
+            <input type="text" name="Ad" class="form-control" />
+        </div>
+        <button class="btn btn-success" type="submit">Ekle</button>
+    </form>*@
+
+@* yukarıdakini kapatıp html.beginform'u açıyoruz. burası Razor kodu *@
+@*@using (Html.BeginForm("Kaydet", "Departman", FormMethod.Post))*@
+@* Ajax.BeginForm ile yazarsak:  *@
+<div id="mesaj"></div>
+@using (Ajax.BeginForm("Kaydet", "Departman", new AjaxOptions { HttpMethod = "POST", UpdateTargetId = "mesaj" }))
+{
+    @Html.AntiForgeryToken() //bunu ekleyerek, dışarıdan gelen saldırılara karşı koruma sağlar.
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Ad)
+        @Html.TextBoxFor(m => m.Ad, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Ad)
+    </div>
+    @Html.HiddenFor(m => m.Id)
+    <button class="btn btn-success" type="submit">Kaydet</button>
+}
+
+
+@* Layout'tan validationScripts adı ile tanımlanan validasyonları, burada çağırıyoruz. client-side olarak validasyon mesajlarını gösterecek.
+    entity'lerdeki validatoion mesaj tanımlarını kullanmamış oluyoruz. o taraf server-side idi, boşuna server'ı yormaya gerek yok.*@
+@section validationScripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}

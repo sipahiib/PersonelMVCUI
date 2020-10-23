@@ -1,0 +1,68 @@
+﻿@* bu dosyayı oluşturduk çünkü personel.index dosyasında, departman bilgilerini getirebilmek için. *@
+@model PersonelMVCUI.ViewModels.PersonelFormViewModel
+
+@{
+    ViewBag.Title = "PersonelForm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Personel Formu</h1>
+
+@* herbir veri için ValidationMessageFor mesajı ekleneceğine, bu şekilde de özet bir validation eklenebilir! *@
+@*@Html.ValidationSummary()*@
+
+@using (Html.BeginForm("Kaydet", "Personel", FormMethod.Post))
+{
+
+    @Html.AntiForgeryToken() //bunu ekleyerek, dışarıdan gelen saldırılara karşı koruma sağlar.
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.Ad)
+        @Html.TextBoxFor(m => m.Personel.Ad, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.Ad)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.Soyad)
+        @Html.TextBoxFor(m => m.Personel.Soyad, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.Soyad)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.DepartmanId)
+        @Html.DropDownListFor(m => m.Personel.DepartmanId, new SelectList(Model.Departmanlar, "Id", "Ad"), "Departman Seçiniz", new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.DepartmanId)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.Maas)
+        @Html.TextBoxFor(m => m.Personel.Maas, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Personel.Maas)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Personel.DogumTarihi)
+        @Html.TextBoxFor(m => m.Personel.DogumTarihi, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date", onchange = "DateIsValid(this)" })
+        @Html.ValidationMessageFor(m => m.Personel.DogumTarihi)
+    </div>
+    <div class="radio">
+        <label>
+            @Html.RadioButtonFor(m => m.Personel.Cinsiyet, true) Erkek
+        </label>
+        <label>
+            @Html.RadioButtonFor(m => m.Personel.Cinsiyet, false) Kadın
+        </label>
+    </div>
+    <div class="checkbox">
+        <label>
+            @Html.CheckBoxFor(m => m.Personel.Evlimi) Evliyseniz Seçin
+        </label>
+    </div>
+
+    @Html.HiddenFor(m => m.Personel.Id)
+    <button type="submit" class="btn btn-default">Kaydet</button>
+}
+
+@* Layout'tan validationScripts adı ile tanımlanan validasyonları, burada çağırıyoruz. client-side olarak validasyon mesajlarını gösterecek.
+    entity'lerdeki validation mesaj tanımlarını kullanmamış oluyoruz. o taraf server-side idi, boşuna server'ı yormaya gerek yok.*@
+@section validationScripts
+{
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+}
